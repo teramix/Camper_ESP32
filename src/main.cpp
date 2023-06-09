@@ -29,12 +29,13 @@ unsigned long timing2;
 
 
 #define NUM_LEDS 30
+#define NUM_LEDS_all 31
 #include <Adafruit_NeoPixel.h>
 #define PINA 4
 #define PINB 5
-#define FASTLED_ALLOW_INTERRUPTS 0
-Adafruit_NeoPixel ledsA(NUM_LEDS, PINA, NEO_GRB + NEO_KHZ800); //левая
-Adafruit_NeoPixel ledsB(NUM_LEDS, PINB, NEO_GRB + NEO_KHZ800); // правая
+//#define FASTLED_ALLOW_INTERRUPTS 0
+Adafruit_NeoPixel ledsA(NUM_LEDS_all, PINA, NEO_GRB + NEO_KHZ800); //левая
+Adafruit_NeoPixel ledsB(NUM_LEDS_all, PINB, NEO_GRB + NEO_KHZ800); // правая
 
 jeeui2 jee;
 #include "interface.h"  // в этот файл вынесена работа с параметрами и с веб интерфейсом
@@ -43,9 +44,9 @@ jeeui2 jee;
 void setup() {
   //Serial.begin(115200);
   //SPIFFS.begin(true);
-  pinMode(buttonPin1, INPUT);
-  pinMode(buttonPin2, INPUT);
-  pinMode(buttonPin3, INPUT);
+  pinMode(buttonPin1, INPUT); // Дневной свет
+  pinMode(buttonPin2, INPUT); // Поворот А
+  pinMode(buttonPin3, INPUT); // Поворот Б
   jee.ap(5000);
   parameters();
   jee.ui(interface);

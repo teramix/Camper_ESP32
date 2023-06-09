@@ -148,7 +148,7 @@ void led_default(){
   ledsA.show(); // Отобразить изменения на ленте ledsA
   ledsB.show(); // Отобразить изменения на ленте ledsB
 }
-void rainbow_loop() {                        //-m3-LOOP HSV RAINBOW
+void rainbow_loop() {                        //-m3-LOOP HSV RAINBOW крутящаяся радуга
 
   idex = (idex + 1) % NUM_LEDS;
   ihue = (ihue + thisstep) % 256;
@@ -315,15 +315,15 @@ void effects(){
     {
         case 1: 
             
-            led_default();
+            led_default(); //Обычные габариты
             break;
         case 2: rainbow_loop(); break;            // крутящаяся радуга
         case 3: ems_lightsSTROBE(); break;        // полицейская мигалка
-        case 4: OutsideToCenterAoff(0xff, 69, 0, 4, 80, 100); break;
-        case 5: OutsideToCenterBoff(0xff, 69, 0, 4, 80, 100); break;
-        case 6: OutsideToCenterAvar(0xff, 69, 0, 4, 80, 100); break;
+        case 4: OutsideToCenterAoff(0xff, 69, 0, 4, 80, 100); break; //Левый поворотник
+        case 5: OutsideToCenterBoff(0xff, 69, 0, 4, 80, 100); break; //Правый поворотник
+        case 6: OutsideToCenterAvar(0xff, 69, 0, 4, 80, 100); break; //Аварийка
         case 0:
-            one_color_all(0, 0, 0);
+            one_color_all(0, 0, 0); //Выключить все светодиоды
             ledsA.show();
             ledsB.show();
             break;

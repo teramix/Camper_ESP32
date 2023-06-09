@@ -8,12 +8,15 @@
 //float hum; // влажность
 String colorA;
 String colorB;
+String colorA2;
+String colorB2;
 int Brgh;
+int Brgh2;
 int effects_led;
 //String chkA{1,3};
 //String chkA2;
-boolean led_arrayA[30];
-boolean led_arrayB[30];
+boolean led_arrayA[31];
+boolean led_arrayB[31];
 
 void parameters(){
 // создаем параметры для нашего проекта
@@ -26,6 +29,9 @@ void parameters(){
   
   jee.var("color_led_A", "#baffff");
   jee.var("color_led_B", "#baffff");
+  jee.var("color_led_A2", "#baffff");
+  jee.var("color_led_B2", "#baffff");
+  jee.var("Brgh2", "50");
   jee.var("Brgh", "50");
   jee.var("cnt1", "1");
 
@@ -59,6 +65,7 @@ void parameters(){
   jee.var("chkA28", "true");
   jee.var("chkA29", "true");
   jee.var("chkA30", "true");
+  jee.var("chkA31", "true");
 
   jee.var("chkB1", "true");
   jee.var("chkB2", "true");
@@ -90,6 +97,7 @@ void parameters(){
   jee.var("chkB28", "true");
   jee.var("chkB29", "true");
   jee.var("chkB30", "true");
+  jee.var("chkB31", "true");
   
 }
 
@@ -100,7 +108,10 @@ void update(){ // функция выполняется после ввода д
   //mqtt_int = jee.param("mqtt_int").toInt();
    colorA = String(jee.param("color_led_A"));
    colorB = String(jee.param("color_led_B"));
+   colorA2 = String(jee.param("color_led_A2")); // Центр
+   colorB2 = String(jee.param("color_led_B2")); // Центр
    Brgh = jee.param("Brgh").toInt();
+   Brgh2 = jee.param("Brgh2").toInt();
    effects_led = jee.param("cnt1").toInt();
    //Чек светодиодов
   //led_arrayA[0] = boolean(jee.param("chkA1"));
@@ -135,6 +146,7 @@ void update(){ // функция выполняется после ввода д
   if (String(jee.param("chkA28")) == "true") { led_arrayA[27] = true; }else { led_arrayA[27] = false;}
   if (String(jee.param("chkA29")) == "true") { led_arrayA[28] = true; }else { led_arrayA[28] = false;}
   if (String(jee.param("chkA30")) == "true") { led_arrayA[29] = true; }else { led_arrayA[29] = false;}
+  if (String(jee.param("chkA31")) == "true") { led_arrayA[30] = true; }else { led_arrayA[30] = false;}
  //// Включен/выключен светодио левой фары
   if (String(jee.param("chkB1")) == "true") { led_arrayB[0] = true; }else { led_arrayB[0] = false;}
   if (String(jee.param("chkB2")) == "true") { led_arrayB[1] = true; }else { led_arrayB[1] = false;}
@@ -166,6 +178,7 @@ void update(){ // функция выполняется после ввода д
   if (String(jee.param("chkB28")) == "true") { led_arrayB[27] = true; }else { led_arrayB[27] = false;}
   if (String(jee.param("chkB29")) == "true") { led_arrayB[28] = true; }else { led_arrayB[28] = false;}
   if (String(jee.param("chkB30")) == "true") { led_arrayB[29] = true; }else { led_arrayB[29] = false;}
+  if (String(jee.param("chkB31")) == "true") { led_arrayB[30] = true; }else { led_arrayB[30] = false;}
 
 }
 
@@ -178,6 +191,7 @@ void interface(){ // функция в которой мф формируем в
   jee.menu("Светодиоды правой фары");
   jee.menu("Светодиоды левой фары");
   jee.menu("Настройки Wi-Fi");
+  jee.menu("Настройка центра");
   // создаем контент для каждого пункта меню
 
   jee.page(); // разделитель между страницами
@@ -266,6 +280,14 @@ void interface(){ // функция в которой мф формируем в
   jee.page(); // разделитель между страницами
   // Страница "Настройки WiFi"
   jee.formWifi(); // форма настроек Wi-Fi
+  jee.page(); // разделитель между страницами
+  // Страница настройки центра фар
+  jee.checkbox("chkA31", "31 светодиод A");
+  jee.checkbox("chkB31", "31 светодиод B");
+  jee.color("color_led_A2", "Цвет левой");
+  jee.color("color_led_B2", "Цвет правой");
+  jee.range("Brgh2", 0, 255, 1, "Яркость светодиодов");
+
   jee.page(); // разделитель между страницами
 
 }
