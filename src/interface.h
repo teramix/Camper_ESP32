@@ -8,10 +8,11 @@
 //float hum; // влажность
 String colorA;
 String colorB;
-String colorA2;
-String colorB2;
+String colorA2; // цвет центра
+String colorB2; // цвет центра
+String color_rep; // цвет поворотников
 int Brgh;
-int Brgh2;
+int Brgh2; //яркость центрального светодиода
 int effects_led;
 //String chkA{1,3};
 //String chkA2;
@@ -31,6 +32,7 @@ void parameters(){
   jee.var("color_led_B", "#baffff");
   jee.var("color_led_A2", "#baffff");
   jee.var("color_led_B2", "#baffff");
+  jee.var("color_led_rep", "#ff4f00");
   jee.var("Brgh2", "50");
   jee.var("Brgh", "50");
   jee.var("cnt1", "1");
@@ -107,7 +109,8 @@ void update(){ // функция выполняется после ввода д
   //ds_int = jee.param("ds_int").toInt();
   //mqtt_int = jee.param("mqtt_int").toInt();
    colorA = String(jee.param("color_led_A"));
-   colorB = String(jee.param("color_led_B"));
+   colorB = String(jee.param("color_led_B")); 
+   color_rep = String(jee.param("color_led_rep"));
    colorA2 = String(jee.param("color_led_A2")); // Центр
    colorB2 = String(jee.param("color_led_B2")); // Центр
    Brgh = jee.param("Brgh").toInt();
@@ -209,6 +212,7 @@ void interface(){ // функция в которой мф формируем в
   // Страница "Настройки фар"
   jee.color("color_led_A", "Цвет левой фары");
   jee.color("color_led_B", "Цвет фары правой");
+  jee.color("color_led_rep", "Цвет поворотников");
   jee.range("Brgh", 0, 255, 1, "Яркость светодиодов");
 
   jee.page(); // разделитель между страницами
@@ -282,8 +286,8 @@ void interface(){ // функция в которой мф формируем в
   jee.formWifi(); // форма настроек Wi-Fi
   jee.page(); // разделитель между страницами
   // Страница настройки центра фар
-  jee.checkbox("chkA31", "31 светодиод A");
-  jee.checkbox("chkB31", "31 светодиод B");
+  jee.checkbox("chkA31", "31 левый светодиод");
+  jee.checkbox("chkB31", "31 правый светодиод");
   jee.color("color_led_A2", "Цвет левой");
   jee.color("color_led_B2", "Цвет правой");
   jee.range("Brgh2", 0, 255, 1, "Яркость светодиодов");

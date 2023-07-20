@@ -24,18 +24,22 @@ void one_color_allB(int cred, int cgrn, int cblu) {       //-SET ALL LEDS TO ONE
 void one_color_avar() {       //аварийка 
 ledsA.setBrightness(Brgh);
 ledsB.setBrightness(Brgh);
+    long long number_rep = strtoll( &color_rep[1], NULL, 16);
+    long long r_rep = number_rep >> 16;
+    long long g_rep = number_rep >> 8 & 0xFF;
+    long long b_rep = number_rep & 0xFF;
   for (int i = 0 ; i < NUM_LEDS; i++ ) {
     //0xff, 69, 0, 4, 80, 100
-    ledsA.setPixelColor(i, ledsA.Color(255, 69, 0));
-    ledsB.setPixelColor(i, ledsB.Color(255, 69, 0));
+    ledsA.setPixelColor(i, ledsA.Color(r_rep, g_rep, b_rep));
+    ledsB.setPixelColor(i, ledsB.Color(r_rep, g_rep, b_rep));
   }
   ledsA.show(); // Отобразить изменения на ленте ledsA
   ledsB.show(); // Отобразить изменения на ленте ledsB
-  delay(320);
+  delay(320); // задержка выключения аварийки TODO исправить
   one_color_all(0, 0, 0);
   ledsA.show(); // Отобразить изменения на ленте ledsA
   ledsB.show(); // Отобразить изменения на ленте ledsB
-  delay(320);
+  delay(320); // задержка включения аварийки TODO исправить
 }
 void one_color_A() {       // Весь цвет светодиода А
 ledsA.setBrightness(Brgh);
@@ -44,20 +48,24 @@ ledsB.setBrightness(Brgh);
     long long rB = numberB >> 16;
     long long gB = numberB >> 8 & 0xFF;
     long long bB = numberB & 0xFF;
+    long long number_rep = strtoll( &color_rep[1], NULL, 16);
+    long long r_rep = number_rep >> 16;
+    long long g_rep = number_rep >> 8 & 0xFF;
+    long long b_rep = number_rep & 0xFF;
   for (int i = 0 ; i < NUM_LEDS; i++ ) {
     //0xff, 69, 0, 4, 80, 100
-    ledsA.setPixelColor(i, ledsA.Color(255, 69, 0));
+    ledsA.setPixelColor(i, ledsA.Color(r_rep, g_rep, b_rep));
   }
   for (int y = 0; y < NUM_LEDS; y++) {
     ledsB.setPixelColor(y, led_arrayB[y] == 0 ? ledsB.Color(0, 0, 0) : ledsB.Color(rB, gB, bB));
   }
   ledsA.show(); // Отобразить изменения на ленте ledsA
   ledsB.show(); // Отобразить изменения на ленте ledsB
-  delay(320);
+  delay(320); // TODO доделать
 
   one_color_allA(0, 0, 0);
   ledsA.show(); // Отобразить изменения на ленте ledsA
-  ledsB.show(); // Отобразить изменения на ленте ledsB
+  //ledsB.show(); // Отобразить изменения на ленте ledsB
   delay(320);
 }
 
@@ -68,9 +76,13 @@ ledsB.setBrightness(Brgh);
     long long rA = numberA >> 16;
     long long gA = numberA >> 8 & 0xFF;
     long long bA = numberA & 0xFF;
+    long long number_rep = strtoll( &color_rep[1], NULL, 16);
+    long long r_rep = number_rep >> 16;
+    long long g_rep = number_rep >> 8 & 0xFF;
+    long long b_rep = number_rep & 0xFF;
   for (int i = 0 ; i < NUM_LEDS; i++ ) {
     //0xff, 69, 0, 4, 80, 100
-    ledsB.setPixelColor(i, ledsB.Color(255, 69, 0));
+    ledsB.setPixelColor(i, ledsB.Color(r_rep, g_rep, b_rep));
   }
   for (int y = 0; y < 30; y++) {
       if (led_arrayA[y] == 0) {
@@ -84,15 +96,19 @@ ledsB.setBrightness(Brgh);
   delay(320);
 
   one_color_allB(0, 0, 0);
-  ledsA.show(); // Отобразить изменения на ленте ledsA
+  //ledsA.show(); // Отобразить изменения на ленте ledsA
   ledsB.show(); // Отобразить изменения на ленте ledsB
   delay(320);
 }
 void one_color_Aoff() {       // Выключены габариты светодиода А
  ledsA.setBrightness(Brgh);
+    long long number_rep = strtoll( &color_rep[1], NULL, 16);
+    long long r_rep = number_rep >> 16;
+    long long g_rep = number_rep >> 8 & 0xFF;
+    long long b_rep = number_rep & 0xFF;
   for (int i = 0 ; i < NUM_LEDS; i++ ) {
     //0xff, 69, 0, 4, 80, 100
-    ledsA.setPixelColor(i, ledsA.Color(255, 69, 0));
+    ledsA.setPixelColor(i, ledsA.Color(r_rep, g_rep, b_rep));
   }
   ledsA.show(); // Отобразить изменения на ленте ledsA
   delay(320);
@@ -103,9 +119,13 @@ void one_color_Aoff() {       // Выключены габариты свето�
 }
 void one_color_Boff() {       // Выключены габариты светодиода B
 ledsB.setBrightness(Brgh);
+long long number_rep = strtoll( &color_rep[1], NULL, 16);
+    long long r_rep = number_rep >> 16;
+    long long g_rep = number_rep >> 8 & 0xFF;
+    long long b_rep = number_rep & 0xFF;
   for (int i = 0 ; i < NUM_LEDS; i++ ) {
     //0xff, 69, 0, 4, 80, 100
-    ledsB.setPixelColor(i, ledsB.Color(255, 69, 0));
+    ledsB.setPixelColor(i, ledsB.Color(r_rep, g_rep, b_rep));
   }
  ledsB.show(); // Отобразить изменения на ленте ledsB
   delay(320);
@@ -126,6 +146,15 @@ void led_default(){
   long long rB = numberB >> 16;
   long long gB = numberB >> 8 & 0xFF;
   long long bB = numberB & 0xFF;
+  long long numberA2 = strtoll( &colorA2[1], NULL, 16);
+  long long numberB2 = strtoll( &colorB2[1], NULL, 16);
+  long long rA2 = numberA2 >> 16;
+  long long gA2 = numberA2 >> 8 & 0xFF;
+  long long bA2 = numberA2 & 0xFF;
+  
+  long long rB2 = numberB2 >> 16;
+  long long gB2 = numberB2 >> 8 & 0xFF;
+  long long bB2 = numberB2 & 0xFF;
   ledsA.setBrightness(Brgh);
   ledsB.setBrightness(Brgh);
   //Serial.print(led_arrayA[0]); Serial.print(" - ");Serial.print(led_arrayA[1]);Serial.println();
@@ -137,6 +166,11 @@ void led_default(){
           ledsA.setPixelColor(x, ledsA.Color(rA, gA, bA));
       }
   }
+  if (led_arrayA[30] == 0) {
+           ledsA.setPixelColor(30, ledsA.Color(0, 0, 0));
+      } else {
+          ledsA.setPixelColor(30, ledsA.Color(rA2, gA2, bA2));
+      }
   for (int y = 0; y < 30; y++) {
       if (led_arrayB[y] == 0) {
           ledsB.setPixelColor(y, ledsB.Color(0, 0, 0));
@@ -144,6 +178,11 @@ void led_default(){
           ledsB.setPixelColor(y, ledsB.Color(rB, gB, bB));
       }
   }
+  if (led_arrayB[30] == 0) {
+           ledsB.setPixelColor(30, ledsB.Color(0, 0, 0));
+      } else {
+          ledsB.setPixelColor(30, ledsB.Color(rB2, gB2, bB2));
+      }
   
   ledsA.show(); // Отобразить изменения на ленте ledsA
   ledsB.show(); // Отобразить изменения на ленте ledsB
