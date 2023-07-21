@@ -5,18 +5,18 @@
     int thishue = 0;             //-FX LOOPS DELAY VAR
     int thissat = 255;           //-FX LOOPS DELAY VAR
 
-void one_color_all(int cred, int cgrn, int cblu) {       //-SET ALL LEDS TO ONE COLOR
+void one_color_all(int cred, int cgrn, int cblu) {       //Все светодиоды одним цветом
   for (int i = 0 ; i < NUM_LEDS; i++ ) {
     ledsA.setPixelColor(i, ledsA.Color(cred, cgrn, cblu));
     ledsB.setPixelColor(i, ledsB.Color(cred, cgrn, cblu));
   }
 }
-void one_color_allA(int cred, int cgrn, int cblu) {       //-SET ALL LEDS TO ONE COLOR
+void one_color_allA(int cred, int cgrn, int cblu) {       //Фара А одним цветом
   for (int i = 0 ; i < NUM_LEDS; i++ ) {
     ledsA.setPixelColor(i, ledsA.Color(cred, cgrn, cblu));
   }
 }
-void one_color_allB(int cred, int cgrn, int cblu) {       //-SET ALL LEDS TO ONE COLOR
+void one_color_allB(int cred, int cgrn, int cblu) {       //Фара Б одним цветом
   for (int i = 0 ; i < NUM_LEDS; i++ ) {
     ledsB.setPixelColor(i, ledsB.Color(cred, cgrn, cblu));
   }
@@ -41,7 +41,7 @@ ledsB.setBrightness(Brgh);
   ledsB.show(); // Отобразить изменения на ленте ledsB
   delay(320); // задержка включения аварийки TODO исправить
 }
-void one_color_A() {       // Весь цвет светодиода А
+void one_color_A() {       // Заданый цвет фары А
 ledsA.setBrightness(Brgh);
 ledsB.setBrightness(Brgh);
     long long numberB = strtoll( &colorB[1], NULL, 16);
@@ -137,7 +137,7 @@ long long number_rep = strtoll( &color_rep[1], NULL, 16);
 
 void led_default(){
     // Get rid of '#' and convert it to integer
-  long long numberA = strtoll( &colorA[1], NULL, 16);
+  long long numberA = strtoll( &colorA[1], NULL, 16); //цвет светодиодов
   long long numberB = strtoll( &colorB[1], NULL, 16);
   long long rA = numberA >> 16;
   long long gA = numberA >> 8 & 0xFF;
@@ -146,7 +146,7 @@ void led_default(){
   long long rB = numberB >> 16;
   long long gB = numberB >> 8 & 0xFF;
   long long bB = numberB & 0xFF;
-  long long numberA2 = strtoll( &colorA2[1], NULL, 16);
+  long long numberA2 = strtoll( &colorA2[1], NULL, 16); //цвет центра фары
   long long numberB2 = strtoll( &colorB2[1], NULL, 16);
   long long rA2 = numberA2 >> 16;
   long long gA2 = numberA2 >> 8 & 0xFF;
@@ -157,8 +157,6 @@ void led_default(){
   long long bB2 = numberB2 & 0xFF;
   ledsA.setBrightness(Brgh);
   ledsB.setBrightness(Brgh);
-  //Serial.print(led_arrayA[0]); Serial.print(" - ");Serial.print(led_arrayA[1]);Serial.println();
-  //delay(400); //задержка для поворотов
   for (int x = 0; x < 30; x++) {
       if (led_arrayA[x] == 0) {
            ledsA.setPixelColor(x, ledsA.Color(0, 0, 0));
@@ -187,7 +185,7 @@ void led_default(){
   ledsA.show(); // Отобразить изменения на ленте ledsA
   ledsB.show(); // Отобразить изменения на ленте ledsB
 }
-void rainbow_loop() {                        //-m3-LOOP HSV RAINBOW крутящаяся радуга
+void rainbow_loop() {                        //крутящаяся радуга
 
   idex = (idex + 1) % NUM_LEDS;
   ihue = (ihue + thisstep) % 256;
@@ -199,7 +197,7 @@ void rainbow_loop() {                        //-m3-LOOP HSV RAINBOW крутящ
   delay(thisdelay);
 }
 
-void ems_lightsSTROBE() {                  //-m26-EMERGENCY LIGHTS (STROBE LEFT/RIGHT)
+void ems_lightsSTROBE() {                  // полицейская мигалка
   int TOP_INDEX = int(NUM_LEDS / 2);
   int thishue = 0;
   int thathue = (thishue + 160) % 255;
@@ -235,7 +233,7 @@ void ems_lightsSTROBE() {                  //-m26-EMERGENCY LIGHTS (STROBE LEFT/
   }
 }
 
-void OutsideToCenterA(byte red, byte green, byte blue, int EyeSize, int SpeedDelay, int ReturnDelay) 
+void OutsideToCenterA(byte red, byte green, byte blue, int EyeSize, int SpeedDelay, int ReturnDelay) //убрать
 {
     ledsA.setBrightness(Brgh);
     ledsB.setBrightness(Brgh);
@@ -264,7 +262,7 @@ void OutsideToCenterA(byte red, byte green, byte blue, int EyeSize, int SpeedDel
   }
   delay(ReturnDelay);
 }
-void OutsideToCenterB(byte red, byte green, byte blue, int EyeSize, int SpeedDelay, int ReturnDelay) 
+void OutsideToCenterB(byte red, byte green, byte blue, int EyeSize, int SpeedDelay, int ReturnDelay) //убрать
 {
     ledsA.setBrightness(Brgh);
     ledsB.setBrightness(Brgh);
@@ -293,7 +291,7 @@ void OutsideToCenterB(byte red, byte green, byte blue, int EyeSize, int SpeedDel
   }
   delay(ReturnDelay);
 }
-void OutsideToCenterAvar(byte red, byte green, byte blue, int EyeSize, int SpeedDelay, int ReturnDelay) 
+void OutsideToCenterAvar(byte red, byte green, byte blue, int EyeSize, int SpeedDelay, int ReturnDelay) //Аварийка эффекты
 {
   ledsA.setBrightness(Brgh);
   ledsB.setBrightness(Brgh);
@@ -315,7 +313,7 @@ void OutsideToCenterAvar(byte red, byte green, byte blue, int EyeSize, int Speed
   }
   delay(ReturnDelay);
 }
-void OutsideToCenterAoff(byte red, byte green, byte blue, int EyeSize, int SpeedDelay, int ReturnDelay) 
+void OutsideToCenterAoff(byte red, byte green, byte blue, int EyeSize, int SpeedDelay, int ReturnDelay)  //Левый поворотник эффекты
 {
     ledsA.setBrightness(Brgh);
   for(int i = 0; i<=((NUM_LEDS-EyeSize)/2); i++) 
@@ -331,7 +329,7 @@ void OutsideToCenterAoff(byte red, byte green, byte blue, int EyeSize, int Speed
   }
   delay(ReturnDelay);
 }
-void OutsideToCenterBoff(byte red, byte green, byte blue, int EyeSize, int SpeedDelay, int ReturnDelay) 
+void OutsideToCenterBoff(byte red, byte green, byte blue, int EyeSize, int SpeedDelay, int ReturnDelay) //Правый поворотник эффекты
 {
       ledsB.setBrightness(Brgh);
     
@@ -352,10 +350,7 @@ void effects(){
     //Serial.println(effects_led);
     switch (effects_led)
     {
-        case 1: 
-            
-            led_default(); //Обычные габариты
-            break;
+        case 1: led_default(); break;//Обычные габариты            
         case 2: rainbow_loop(); break;            // крутящаяся радуга
         case 3: ems_lightsSTROBE(); break;        // полицейская мигалка
         case 4: OutsideToCenterAoff(0xff, 69, 0, 4, 80, 100); break; //Левый поворотник
