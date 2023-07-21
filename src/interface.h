@@ -12,7 +12,7 @@ String colorA2; // цвет центра
 String colorB2; // цвет центра
 String color_rep; // цвет поворотников
 int Brgh;
-int Brgh2; //яркость центрального светодиода
+int Brgh2; //яркость центрального светодиода ПОКА не используется
 int effects_led;
 //String chkA{1,3};
 //String chkA2;
