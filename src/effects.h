@@ -20,6 +20,115 @@
   long long g_rep = number_rep >> 8 & 0xFF;
   long long b_rep = number_rep & 0xFF;
 
+//***************************************************
+//***************************************************
+
+  void dxos1 ()
+{ //Увеличивает яркость первого поворотника до максимального значения для режима ДХО
+  for (int j = 0; j < Brgh; j += gradation)
+  {
+    ledsA.setBrightness(j);
+    for (int x = 0; x < 30; x++) {
+      if (led_arrayA[x] == 0) {
+           ledsA.setPixelColor(x, ledsA.Color(0, 0, 0));
+      } else {
+          ledsA.setPixelColor(x, ledsA.Color(rA, gA, bA));
+      }
+  }
+    ledsA.show();
+    set5 = 0;
+  }
+  set10 = 0;
+}
+  void dxos2()
+{ //Увеличивает яркость второго поворотника до максимального значения для режима ДХО.
+  for (int j = 0; j < Brgh; j += gradation)
+  {
+    ledsB.setBrightness(j);
+    for (int y = 0; y < 30; y++) {
+      if (led_arrayB[y] == 0) {
+          ledsB.setPixelColor(y, ledsB.Color(0, 0, 0));
+      } else {
+          ledsB.setPixelColor(y, ledsB.Color(rB, gB, bB));
+      }
+  }
+    ledsB.show();
+    set5 = 0;
+  }
+  set9 = 0;
+}
+   void dxos3 ()
+{ //Увеличивает яркость обоих поворотников до максимального значения для режима ДХО.
+  for (int j = 0; j < Brgh; j += gradation)
+  {
+    ledsA.setBrightness(j);
+    ledsB.setBrightness(j);
+    for (int x = 0; x < 30; x++) {
+      if (led_arrayA[x] == 0) {
+           ledsA.setPixelColor(x, ledsA.Color(0, 0, 0));
+      } else {
+          ledsA.setPixelColor(x, ledsA.Color(rA, gA, bA));
+      }
+  }
+  if (led_arrayA[30] == 0) { //центр  А
+           ledsA.setPixelColor(30, ledsA.Color(0, 0, 0));
+      } else {
+          ledsA.setPixelColor(30, ledsA.Color(rA2, gA2, bA2));
+      }
+  for (int y = 0; y < 30; y++) {
+      if (led_arrayB[y] == 0) {
+          ledsB.setPixelColor(y, ledsB.Color(0, 0, 0));
+      } else {
+          ledsB.setPixelColor(y, ledsB.Color(rB, gB, bB));
+      }
+  }
+  if (led_arrayB[30] == 0) { //центр  Б
+           ledsB.setPixelColor(30, ledsB.Color(0, 0, 0));
+      } else {
+          ledsB.setPixelColor(30, ledsB.Color(rB2, gB2, bB2));
+      }
+    set5 = 0;
+  }
+  set9 = 0;
+  set10 = 0;
+}
+ //***************************************************
+//***************************************************
+
+void turnoff1()
+{ //Выключает первый поворотник, выключая все светодиоды на его ленте.
+  for (int l = 0; l < NUM_LEDS_all; l ++)
+  {
+    ledsA.setPixelColor(l, ledsA.Color(0, 0, 0));
+  }
+  ledsA.show();
+  set1 = 1; set3 = 0;
+}
+void turnoff2 ()
+{ //Выключает второй поворотник, выключая все светодиоды на его ленте.
+  for (int l = 0; l < NUM_LEDS_all; l ++)
+  {
+    ledsB.setPixelColor(l, ledsB.Color(0, 0, 0));
+  }
+  ledsB.show();
+  set2 = 1; set3 = 0;
+}
+//***************************************************
+//***************************************************
+   void dxooff ()
+{ //Выключает оба поворотника при выключении режима ДХО.
+  for (int i = 0; i < NUM_LEDS_all + 1; i++)
+  {
+    ledsA.setPixelColor(i, ledsA.Color(0, 0, 0));
+    ledsB.setPixelColor(i, ledsB.Color(0, 0, 0));
+  }
+  ledsA.show(); ledsB.show();
+  set1 = 1;  // Флаг, указывающий на активность первого поворотника
+  set2 = 1; // Флаг, указывающий на активность второго поворотника
+  set3 = 0; // Флаг, указывающий на активность эффекта мерцания при включении обоих поворотников
+}
+//***************************************************
+
 // Функции управления отображением эффектов на светодиодных лентах
 void turn1()
 {//Отображает эффект первого поворотника (желтая анимация пробегания светодиодов) и переключает в режим ДХО при необходимости.
@@ -95,27 +204,7 @@ void turncrash11()
   }
 }
 
-  //***************************************************
-//***************************************************
-
-void turnoff1()
-{ //Выключает первый поворотник, выключая все светодиоды на его ленте.
-  for (int l = 0; l < NUM_LEDS_all; l ++)
-  {
-    ledsA.setPixelColor(l, ledsA.Color(0, 0, 0));
-  }
-  ledsA.show();
-  set1 = 1; set3 = 0;
-}
-void turnoff2 ()
-{ //Выключает второй поворотник, выключая все светодиоды на его ленте.
-  for (int l = 0; l < NUM_LEDS_all; l ++)
-  {
-    ledsB.setPixelColor(l, ledsB.Color(0, 0, 0));
-  }
-  ledsB.show();
-  set2 = 1; set3 = 0;
-}
+ 
 //***************************************************
 //***************************************************
 
@@ -185,93 +274,9 @@ Z = 0;
   dxos3();
 }
 
-//***************************************************
-//***************************************************
 
-  void dxos1 ()
-{ //Увеличивает яркость первого поворотника до максимального значения для режима ДХО
-  for (int j = 0; j < Brgh; j += gradation)
-  {
-    ledsA.setBrightness(j);
-    for (int x = 0; x < 30; x++) {
-      if (led_arrayA[x] == 0) {
-           ledsA.setPixelColor(x, ledsA.Color(0, 0, 0));
-      } else {
-          ledsA.setPixelColor(x, ledsA.Color(rA, gA, bA));
-      }
-  }
-    ledsA.show();
-    set5 = 0;
-  }
-  set10 = 0;
-}
-  void dxos2()
-{ //Увеличивает яркость второго поворотника до максимального значения для режима ДХО.
-  for (int j = 0; j < Brgh; j += gradation)
-  {
-    ledsB.setBrightness(j);
-    for (int y = 0; y < 30; y++) {
-      if (led_arrayB[y] == 0) {
-          ledsB.setPixelColor(y, ledsB.Color(0, 0, 0));
-      } else {
-          ledsB.setPixelColor(y, ledsB.Color(rB, gB, bB));
-      }
-  }
-    ledsB.show();
-    set5 = 0;
-  }
-  set9 = 0;
-}
-   void dxos3 ()
-{ //Увеличивает яркость обоих поворотников до максимального значения для режима ДХО.
-  for (int j = 0; j < Brgh; j += gradation)
-  {
-    ledsA.setBrightness(j);
-    ledsB.setBrightness(j);
-    for (int x = 0; x < 30; x++) {
-      if (led_arrayA[x] == 0) {
-           ledsA.setPixelColor(x, ledsA.Color(0, 0, 0));
-      } else {
-          ledsA.setPixelColor(x, ledsA.Color(rA, gA, bA));
-      }
-  }
-  if (led_arrayA[30] == 0) { //центр  А
-           ledsA.setPixelColor(30, ledsA.Color(0, 0, 0));
-      } else {
-          ledsA.setPixelColor(30, ledsA.Color(rA2, gA2, bA2));
-      }
-  for (int y = 0; y < 30; y++) {
-      if (led_arrayB[y] == 0) {
-          ledsB.setPixelColor(y, ledsB.Color(0, 0, 0));
-      } else {
-          ledsB.setPixelColor(y, ledsB.Color(rB, gB, bB));
-      }
-  }
-  if (led_arrayB[30] == 0) { //центр  Б
-           ledsB.setPixelColor(30, ledsB.Color(0, 0, 0));
-      } else {
-          ledsB.setPixelColor(30, ledsB.Color(rB2, gB2, bB2));
-      }
-    set5 = 0;
-  }
-  set9 = 0;
-  set10 = 0;
-}
 
-//***************************************************
-//***************************************************
-   void dxooff ()
-{ //Выключает оба поворотника при выключении режима ДХО.
-  for (int i = 0; i < NUM_LEDS_all + 1; i++)
-  {
-    ledsA.setPixelColor(i, ledsA.Color(0, 0, 0));
-    ledsB.setPixelColor(i, ledsB.Color(0, 0, 0));
-  }
-  ledsA.show(); ledsB.show();
-  set1 = 1;  // Флаг, указывающий на активность первого поворотника
-  set2 = 1; // Флаг, указывающий на активность второго поворотника
-  set3 = 0; // Флаг, указывающий на активность эффекта мерцания при включении обоих поворотников
-}
+
    
    
     /// old
