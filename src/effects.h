@@ -1,31 +1,21 @@
    /// NEW
-   
-  long long numberA = strtoll( &colorA[1], NULL, 16); //цвет светодиодов
-  long long numberB = strtoll( &colorB[1], NULL, 16);
-  long long rA = numberA >> 16;
-  long long gA = numberA >> 8 & 0xFF;
-  long long bA = numberA & 0xFF;  
-  long long rB = numberB >> 16;
-  long long gB = numberB >> 8 & 0xFF;
-  long long bB = numberB & 0xFF;
-  long long numberA2 = strtoll( &colorA2[1], NULL, 16); //цвет центра фары
-  long long numberB2 = strtoll( &colorB2[1], NULL, 16);
-  long long rA2 = numberA2 >> 16;
-  long long gA2 = numberA2 >> 8 & 0xFF;
-  long long bA2 = numberA2 & 0xFF;  
-  long long rB2 = numberB2 >> 16;
-  long long gB2 = numberB2 >> 8 & 0xFF;
-  long long bB2 = numberB2 & 0xFF;
-  long long number_rep = strtoll( &color_rep[1], NULL, 16); //цвет поворотников
-  long long r_rep = number_rep >> 16;
-  long long g_rep = number_rep >> 8 & 0xFF;
-  long long b_rep = number_rep & 0xFF;
-#include "effects2.h"  // в этот файл вынесена работа старых эффектов
-//***************************************************
-//***************************************************
 
+//***************************************************
+//***************************************************
+// Функция для переконвертации значения цвета HEX в RGB
+void hexToRGB(const char *hexValue, byte &r, byte &g, byte &b) {
+  // Преобразуем HEX-строку в числовое значение
+  unsigned long hexNumber = strtoul(hexValue, NULL, 16);
+  
+  // Извлекаем значения красного, зеленого и синего
+  r = (hexNumber >> 16) & 0xFF;
+  g = (hexNumber >> 8) & 0xFF;
+  b = hexNumber & 0xFF;
+}
+#include "effects2.h"  // в этот файл вынесена работа старых эффектов
   void dxos1 ()
 { //Увеличивает яркость первого поворотника до максимального значения для режима ДХО
+  hexToRGB(&colorA[1], rA, gA, bA);
   for (int j = 0; j < Brgh; j += gradation)
   {
     ledsA.setBrightness(j);
@@ -39,10 +29,12 @@
     ledsA.show();
     set5 = 0;
   }
+   //Serial.println("Сработал dxos12");
   set10 = 0;
 }
   void dxos2()
 { //Увеличивает яркость второго поворотника до максимального значения для режима ДХО.
+  hexToRGB(&colorB[1], rB, gB, bB);
   for (int j = 0; j < Brgh; j += gradation)
   {
     ledsB.setBrightness(j);
@@ -56,6 +48,7 @@
     ledsB.show();
     set5 = 0;
   }
+   //Serial.println("Сработал dxos22");
   set9 = 0;
 }
    void dxos3 ()
@@ -65,6 +58,7 @@
     ledsA.setBrightness(j);
     ledsB.setBrightness(j);
     effects();
+    //Serial.println("Сработал dxos32");
     set5 = 0;
   }
   set9 = 0;
@@ -110,6 +104,7 @@ void turnoff2 ()
 // Функции управления отображением эффектов на светодиодных лентах
 void turn1()
 {//Отображает эффект первого поворотника (желтая анимация пробегания светодиодов) и переключает в режим ДХО при необходимости.
+   hexToRGB(&color_rep[1], r_rep, g_rep, b_rep);
   if (set9 == 1 && digitalRead(DRLSignal) == HIGH)
   {
     dxos2(); //Увеличивает яркость второго поворотника до максимального значения для режима ДХО.
@@ -120,7 +115,7 @@ void turn1()
     {
       ledsA.setPixelColor(i, ledsA.Color(r_rep, g_rep, b_rep));
     }
-      ledsA.show();
+      ledsA.show();  
       set5 = 1; set1 = 0; set10 = 1;
     if (digitalRead(LeftSignal) == LOW)
     {
@@ -130,9 +125,9 @@ void turn1()
 }
 //***************************************************
 //***************************************************
-
 void turn2 () 
 { // Поворотник 2
+  hexToRGB(&color_rep[1], r_rep, g_rep, b_rep);
   if (set10 == 1 && digitalRead(DRLSignal) == HIGH)
   {
     dxos1();
@@ -141,10 +136,11 @@ void turn2 ()
   {
     for (int i = 0; i < NUM_LEDS; i++)
     {
-      ledsB.setPixelColor(i, ledsB.Color(r_rep, g_rep, b_rep));
+      ledsB.setPixelColor(i, ledsB.Color(r_rep, g_rep, b_rep));    
+
     }
-    ledsB.show();
-    set5 = 1; set2 = 0; set9 = 1;
+      ledsB.show();
+    set5 = 1; set2 = 0; set9 = 1;  
     
     if (digitalRead(RightSignal) == LOW)
     {
@@ -158,6 +154,7 @@ void turn2 ()
 void turncrash1()
 { // Отображает эффект мерцания обоих поворотников, 
 //активируется при одновременной активации обоих поворотников.
+  hexToRGB(&color_rep[1], r_rep, g_rep, b_rep);
   if (set3 == 0)
   {
     for (int i = 0; i < NUM_LEDS; i++)
@@ -189,6 +186,10 @@ void turncrash11()
 void start() //TODO доделать
 { //Отображает специальный эффект при включении 
 	//(последовательное включение и выключение светодиодов на ленте ДХО).
+  hexToRGB(&colorA[1], rA, gA, bA);
+  hexToRGB(&colorB[1], rB, gB, bB);
+  hexToRGB(&colorA2[1], rA2, gA2, bA2);
+  hexToRGB(&colorB2[1], rB2, gB2, bB2);
   dxooff();
   Z = NUM_LEDS_all + 1;
   for (int count = 0; count < NUM_LEDS_all; count++) {
@@ -200,7 +201,7 @@ void start() //TODO доделать
       ledsB.setBrightness(255);
       ledsB.setPixelColor(Z - 1, ledsB.Color(rB, gB, bB));
       ledsB.show();
-      delay(5);
+      delay(3);
       ledsA.setBrightness(255);
       ledsA.setPixelColor(Z - 1, ledsA.Color(0, 0, 0));
       ledsA.show();
@@ -216,33 +217,33 @@ void start() //TODO доделать
     ledsB.show();
     Z = NUM_LEDS_all + (Z + 1);
   }
-  delay(1000);
+  delay(2);
 Z = 0;
   for (int count = 0; count < NUM_LEDS_all; count++) {
     Z = Z + 1;
     ledsA.setBrightness(255);
-	ledsB.setBrightness(255);
+	  ledsB.setBrightness(255);
     ledsA.setPixelColor(Z - 1, ledsA.Color(0, 128, 255));
-	ledsB.setPixelColor(Z - 1, ledsB.Color(0, 128, 255));
+	  ledsB.setPixelColor(Z - 1, ledsB.Color(0, 128, 255));
     ledsA.show();
-	ledsB.show();
+	  ledsB.show();
     delay(10);
     ledsA.setBrightness(255);
-	ledsB.setBrightness(255);
+	  ledsB.setBrightness(255);
     ledsA.setPixelColor(Z - 1, ledsA.Color(rA, gA, bA));
-	ledsB.setPixelColor(Z - 1, ledsB.Color(rB, gB, bB));
+	  ledsB.setPixelColor(Z - 1, ledsB.Color(rB, gB, bB));
     ledsA.show();
-	ledsB.show();
+	  ledsB.show();
   }
   Z = NUM_LEDS_all;
   for (int i = 0; i < NUM_LEDS_all; i++) {
     Z = Z - 1;
     ledsA.setBrightness(255);
-	ledsB.setBrightness(255);
+	  ledsB.setBrightness(255);
     ledsA.setPixelColor(Z - 1, ledsA.Color(0, 128, 255));
-	ledsB.setPixelColor(Z - 1, ledsB.Color(0, 128, 255));
+	  ledsB.setPixelColor(Z - 1, ledsB.Color(0, 128, 255));
     ledsA.show();
-	ledsB.show();
+	  ledsB.show();
     delay(10);
   }
   ledsA.setPixelColor(30, ledsA.Color(rA2, gA2, bA2));

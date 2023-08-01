@@ -74,16 +74,7 @@ ledsB.setBrightness(Brgh);
 void one_color_B() {       // Весь цвет светодиода B
 ledsA.setBrightness(Brgh);
 ledsB.setBrightness(Brgh);
-    long long numberA = strtoll( &colorA[1], NULL, 16);
-    long long rA = numberA >> 16;
-    long long gA = numberA >> 8 & 0xFF;
-    long long bA = numberA & 0xFF;
-    long long number_rep = strtoll( &color_rep[1], NULL, 16);
-    long long r_rep = number_rep >> 16;
-    long long g_rep = number_rep >> 8 & 0xFF;
-    long long b_rep = number_rep & 0xFF;
   for (int i = 0 ; i < NUM_LEDS; i++ ) {
-    //0xff, 69, 0, 4, 80, 100
     ledsB.setPixelColor(i, ledsB.Color(r_rep, g_rep, b_rep));
   }
   for (int y = 0; y < 30; y++) {
@@ -140,6 +131,10 @@ long long number_rep = strtoll( &color_rep[1], NULL, 16);
 void led_default(){
   //ledsA.setBrightness(Brgh);
   //ledsB.setBrightness(Brgh);
+  hexToRGB(&colorA[1], rA, gA, bA);
+  hexToRGB(&colorB[1], rB, gB, bB);
+  hexToRGB(&colorA2[1], rA2, gA2, bA2);
+  hexToRGB(&colorB2[1], rB2, gB2, bB2);
   for (int x = 0; x < 30; x++) {
       if (led_arrayA[x] == 0) {
            ledsA.setPixelColor(x, ledsA.Color(0, 0, 0));

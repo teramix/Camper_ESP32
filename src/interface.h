@@ -19,6 +19,7 @@ int effects_led;
 boolean led_arrayA[31];
 boolean led_arrayB[31];
 
+
 void parameters(){
 // создаем параметры для нашего проекта
   jee.var("wifi", "AP"); // режим работы WiFi по умолчанию ("STA" или "AP")  (параметр в энергонезависимой памяти)
@@ -110,7 +111,7 @@ void update(){ // функция выполняется после ввода д
   //mqtt_int = jee.param("mqtt_int").toInt();
    colorA = String(jee.param("color_led_A"));
    colorB = String(jee.param("color_led_B")); 
-   color_rep = String(jee.param("color_led_rep"));
+   color_rep = String(jee.param("color_led_rep"));   
    colorA2 = String(jee.param("color_led_A2")); // Центр
    colorB2 = String(jee.param("color_led_B2")); // Центр
    Brgh = jee.param("Brgh").toInt();
@@ -210,8 +211,8 @@ void interface(){ // функция в которой мф формируем в
 
   jee.page(); // разделитель между страницами
   // Страница "Настройки фар"
-  jee.color("color_led_A", "Цвет левой фары");
-  jee.color("color_led_B", "Цвет фары правой");
+  jee.color("color_led_A", "Цвет правой фары");
+  jee.color("color_led_B", "Цвет левой фары");
   jee.color("color_led_rep", "Цвет поворотников");
   jee.range("Brgh", 0, 255, 1, "Яркость светодиодов");
 
@@ -286,11 +287,11 @@ void interface(){ // функция в которой мф формируем в
   jee.formWifi(); // форма настроек Wi-Fi
   jee.page(); // разделитель между страницами
   // Страница настройки центра фар
-  jee.checkbox("chkA31", "31 левый светодиод");
-  jee.checkbox("chkB31", "31 правый светодиод");
+  jee.checkbox("chkA31", "31 левый ");
+  jee.checkbox("chkB31", "31 правый");
   jee.color("color_led_A2", "Цвет левой");
   jee.color("color_led_B2", "Цвет правой");
-  jee.range("Brgh2", 0, 255, 1, "Яркость светодиодов");
+  jee.range("Brgh2", 0, 255, 1, "Яркость центра");
 
   jee.page(); // разделитель между страницами
 

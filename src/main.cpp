@@ -42,15 +42,23 @@ boolean set10 = 0; // Флаг, указывающий на активность
 //unsigned long timing2;
 unsigned long time1;   // Таймер 1
 long Z = 0;
-
+ //byte r, g, b;
+ byte r_rep, g_rep, b_rep;
+ byte rA, gA, bA;
+ byte rB, gB, bB;
+ byte rA2, gA2, bA2;
+ byte rB2, gB2, bB2;
 
 #define NUM_LEDS 30 // количество пикселей поворотник
 #define NUM_LEDS_all 31 // количество пикселей поворотник с центральным
 #define PINA 4
 #define PINB 5
 //#define FASTLED_ALLOW_INTERRUPTS 0
+//CRGB ledsA[NUM_LEDS_all]; //левая
+//CRGB ledsB[NUM_LEDS_all]; // правая
 Adafruit_NeoPixel ledsA(NUM_LEDS_all, PINA, NEO_GRB + NEO_KHZ800); //левая
 Adafruit_NeoPixel ledsB(NUM_LEDS_all, PINB, NEO_GRB + NEO_KHZ800); // правая
+  
 
 jeeui2 jee;
 #include "interface.h"  // в этот файл вынесена работа с параметрами и с веб интерфейсом
@@ -67,22 +75,27 @@ void setup() {
   jee.ui(interface);
   jee.update(update);
   jee.begin(true);
+  //FastLED.addLeds<WS2812B, PINA, GRB>(ledsA, NUM_LEDS_all).setCorrection( TypicalLEDStrip );
+  //FastLED.addLeds<WS2812B, PINB, GRB>(ledsB, NUM_LEDS_all).setCorrection( TypicalLEDStrip );
   ledsA.begin();
   ledsB.begin();
   ledsA.setBrightness(255);
   ledsB.setBrightness(255);
-  rainbow_loop();
+  //rainbow_loop();
   start(); // Запускаем функцию, которая отображает специальный эффект при включении
   delay(800);
   if (digitalRead(DRLSignal) == HIGH) // Если ДХО активно, то устанавливаем соответствующее состояние
   {
+    //Serial.println("Активность ДХО");
     set4 = 1; // Флаг, указывающий на активность режима ДХО (фары ближнего света)
   }
   else  {
+    //Serial.println("выключаем ДХО");
     dxooff(); // Иначе выключаем ДХО
   }
- 
-}
+  
+  
+  }
 void btnUI()
 {
   jee.var("wifi", "STA");
@@ -109,11 +122,13 @@ void loop() {
   if (digitalRead(LeftSignal) == HIGH and digitalRead(RightSignal) == HIGH)
   {
     turncrash1();
+  // Serial.println("Аварийка");
     time1 = millis();
   }
   if (set3 == 1) // Флаг, указывающий на активность эффекта мерцания при включении обоих поворотников
   {
     turncrash11();
+    //Serial.println("Мерцание");
     set8 = 1;// Флаг, указывающий на активность эффекта мерцания при включении обоих поворотников в режим ДХО
   }
   //////////////////////////////////////////////////////
@@ -130,30 +145,36 @@ void loop() {
   {
     time1 = millis();
     dxos1(); //Увеличивает яркость первого поворотника до максимального значения для режима ДХО.
+    //Serial.println("Переключение на ДХО1");
     set6 = 0;
   }
   if (digitalRead(DRLSignal) == HIGH and set7 == 1 and set9 == 1 and millis() - time1 > setback + 150)
   {
     time1 = millis();
     dxos2(); //Увеличивает яркость второго поворотника до максимального значения для режима ДХО.
+    //Serial.println("Переключение на ДХО2");
     set7 = 0;
   }
   if (digitalRead(DRLSignal) == HIGH and set8 == 1 and millis() - time1 > setback)
   {
     time1 = millis();
     dxos3(); //Увеличивает яркость обоих поворотников до максимального значения для режима ДХО.
+    //Serial.println("Переключение на ДХО3");
     set8 = 0;
   }
   //////////////////////////////////////////////////////
 
   if (digitalRead(DRLSignal) == HIGH and set4 == 0)
   {
-    start();
+    //start(); //сделать плавное включение
+    dxos3();
+    //Serial.println("Стартуем повторно");
     set4 = 1;
   }
   if (digitalRead(DRLSignal) == LOW and set4 == 1)
   {
     dxooff(); //Выключает все ленты при выключении режима ДХО.
+    //Serial.println("Выключаем все");
     set4 = 0;
   }
 
